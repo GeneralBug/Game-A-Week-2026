@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cebsxpvkn6bb8"
-path.s3tc="res://.godot/imported/fish!_fish! fins.png-1d2fc5b22397ef686d7009952782a217.s3tc.ctex"
+uid="uid://dbxvqqjkue3ak"
+path.s3tc="res://.godot/imported/rock_5_rock_5_baked.png-e4b13a3fc96cc60402ad86b4a87a90cb.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "13732a6ce8996d78a10f929bffe6860d"
+"md5": "78c4b1a0db8683639b01f18111a1c2e1"
 }
 
 [deps]
 
-source_file="res://Models/fish!_fish! fins.png"
-dest_files=["res://.godot/imported/fish!_fish! fins.png-1d2fc5b22397ef686d7009952782a217.s3tc.ctex"]
+source_file="res://Textures/rock_5_rock_5_baked.png"
+dest_files=["res://.godot/imported/rock_5_rock_5_baked.png-e4b13a3fc96cc60402ad86b4a87a90cb.s3tc.ctex"]
 
 [params]
 

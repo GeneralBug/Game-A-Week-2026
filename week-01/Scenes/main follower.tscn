@@ -1,10 +1,10 @@
-[gd_scene load_steps=22 format=4 uid="uid://cdfvpdeq6jrgo"]
+[gd_scene load_steps=19 format=4 uid="uid://kl4m2rk7hv53"]
 
-[ext_resource type="Script" uid="uid://dtatllu1lyx83" path="res://camera_follow.gd" id="1_1bvp3"]
-[ext_resource type="Script" uid="uid://coewr406t61l5" path="res://Scripts/fish_controller.gd" id="1_h2yge"]
-[ext_resource type="Texture2D" uid="uid://x8b3dqr0nflc" path="res://Models/fish!_fish!.png" id="2_1bvp3"]
-[ext_resource type="Texture2D" uid="uid://cebsxpvkn6bb8" path="res://Models/fish!_fish! fins.png" id="3_lquwl"]
-[ext_resource type="Script" uid="uid://206qs5ypskke" path="res://cam_rotation.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://dtatllu1lyx83" path="res://camera_follow.gd" id="1_ajlbd"]
+[ext_resource type="Script" uid="uid://csstw616ryckf" path="res://Scripts/lure_controller.gd" id="2_yj88a"]
+[ext_resource type="Texture2D" uid="uid://u5wlnt8sncan" path="res://icon.svg" id="3_1w328"]
+[ext_resource type="Texture2D" path="res://Models/fish!_fish!.png" id="4_2p0cj"]
+[ext_resource type="Texture2D" path="res://Models/fish!_fish! fins.png" id="5_gx1x3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7mycd"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -18,11 +18,14 @@ background_mode = 2
 sky = SubResource("Sky_272bh")
 tonemap_mode = 2
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_7mycd"]
+radius = 0.001
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5fe8k"]
 resource_name = "fish"
 cull_mode = 2
 albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
-albedo_texture = ExtResource("2_1bvp3")
+albedo_texture = ExtResource("4_2p0cj")
 roughness = 0.5
 texture_filter = 2
 
@@ -64,7 +67,7 @@ shadow_mesh = SubResource("ArrayMesh_pa8ka")
 resource_name = "fins"
 transparency = 4
 cull_mode = 2
-albedo_texture = ExtResource("3_lquwl")
+albedo_texture = ExtResource("5_gx1x3")
 texture_filter = 2
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_natrx"]
@@ -134,53 +137,14 @@ shadow_mesh = SubResource("ArrayMesh_2awt1")
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7mycd"]
 height = 3.43519
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_1bvp3"]
-
-[sub_resource type="Animation" id="Animation_1bvp3"]
-resource_name = "tail"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("fish/tail:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.5, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, -1.5708, 0), Vector3(0, -1.0472, 0), Vector3(0, -2.0944, 0), Vector3(0, -1.5708, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_lquwl"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("fish/tail:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, -1.5708, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_7mycd"]
-_data = {
-&"RESET": SubResource("Animation_lquwl"),
-&"tail": SubResource("Animation_1bvp3")
-}
-
 [node name="Node3D" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("follow_target", "look_target")]
 transform = Transform3D(-1, 0, -8.74228e-08, -2.99003e-08, 0.939693, 0.34202, 8.21505e-08, 0.34202, -0.939693, 0, 2, -5)
-script = ExtResource("1_1bvp3")
-follow_target = NodePath("../fish/cam rotation/cam pivot")
-look_target = NodePath("../fish")
-speed = 5
+script = ExtResource("1_ajlbd")
+follow_target = NodePath("../Fish/cam pivot")
+look_target = NodePath("../Fish")
+speed = 3
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5vw27")
@@ -193,48 +157,44 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.65447, 0, 0)
 omni_range = 9.43054
 
-[node name="fish" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim")]
-motion_mode = 1
-script = ExtResource("1_h2yge")
-MAX_SPEED = 20.0
-acceleration = 1.0
-drag = 1.5
-anim = NodePath("../AnimationPlayer")
+[node name="Character" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.12321)
+script = ExtResource("2_yj88a")
 
-[node name="body" type="MeshInstance3D" parent="fish"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0.375)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Character"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, 0.375)
+shape = SubResource("SphereShape3D_7mycd")
+disabled = true
+
+[node name="Sprite3D" type="Sprite3D" parent="Character"]
+billboard = 1
+texture = ExtResource("3_1w328")
+
+[node name="Fish" type="CharacterBody3D" parent="." node_paths=PackedStringArray("follow_target", "look_target")]
+motion_mode = 1
+script = ExtResource("1_ajlbd")
+follow_target = NodePath("../Character")
+look_target = NodePath("../Character")
+flip = true
+
+[node name="body" type="MeshInstance3D" parent="Fish"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 2.40413e-07, 0, 0.375)
 mesh = SubResource("ArrayMesh_3nkxl")
 skeleton = NodePath("")
 
-[node name="fins" type="MeshInstance3D" parent="fish"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0.375)
+[node name="fins" type="MeshInstance3D" parent="Fish"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 2.40413e-07, 0, 0.375)
 mesh = SubResource("ArrayMesh_nx10p")
 skeleton = NodePath("")
 
-[node name="tail" type="MeshInstance3D" parent="fish"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -1.125)
+[node name="tail" type="MeshInstance3D" parent="Fish"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -2.18557e-08, 0, -1.125)
 mesh = SubResource("ArrayMesh_46hxm")
 skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="fish"]
-transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, 0.375)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish"]
+transform = Transform3D(-5.73205e-15, 1.31134e-07, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, 1.31134e-07, 2.40413e-07, 0, 0.375)
 shape = SubResource("CapsuleShape3D_7mycd")
 
-[node name="cam rotation" type="Node3D" parent="fish"]
-script = ExtResource("5_lquwl")
-
-[node name="cam pivot" type="Node3D" parent="fish/cam rotation"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(45.2, 0, 0, 0, 45.2, 0, 0, 0, 45.2, 53.4428, -122.336, 279.69)
-mesh = SubResource("CapsuleMesh_1bvp3")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(159.445, 0, 0, 0, 159.445, 0, 0, 0, 159.445, 273.823, -122.336, -362.978)
-mesh = SubResource("CapsuleMesh_1bvp3")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_7mycd")
-}
+[node name="cam pivot" type="Node3D" parent="Fish"]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -6.99382e-07, 3, -5)

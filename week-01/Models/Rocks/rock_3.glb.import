@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c2nkg4utrc2ui"
-path="res://.godot/imported/fish!.glb-f1cb2a0daa8dad2b3693adc1589a9199.scn"
+uid="uid://yu44cagknnlo"
+path="res://.godot/imported/rock_3.glb-f89346cf10e7900f69fb5994ddec7705.scn"
 
 [deps]
 
-source_file="res://Models/fish!.glb"
-dest_files=["res://.godot/imported/fish!.glb-f1cb2a0daa8dad2b3693adc1589a9199.scn"]
+source_file="res://Models/Rocks/rock_3.glb"
+dest_files=["res://.godot/imported/rock_3.glb-f89346cf10e7900f69fb5994ddec7705.scn"]
 
 [params]
 
