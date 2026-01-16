@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://dtatllu1lyx83" path="res://camera_follow.gd" id="1_ajlbd"]
 [ext_resource type="Script" uid="uid://csstw616ryckf" path="res://Scripts/lure_controller.gd" id="2_yj88a"]
 [ext_resource type="Texture2D" uid="uid://u5wlnt8sncan" path="res://icon.svg" id="3_1w328"]
-[ext_resource type="Texture2D" path="res://Models/fish!_fish!.png" id="4_2p0cj"]
-[ext_resource type="Texture2D" path="res://Models/fish!_fish! fins.png" id="5_gx1x3"]
+[ext_resource type="Texture2D" uid="uid://2svd7yy7gmd6" path="res://fish!_fish!.png" id="4_2p0cj"]
+[ext_resource type="Texture2D" uid="uid://df7l8sojp4p55" path="res://fish!_fish! fins.png" id="5_gx1x3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7mycd"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)

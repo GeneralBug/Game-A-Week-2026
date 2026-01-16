@@ -1,19 +1,19 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cxyyskgvxeoxr"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bboo7gixfhlis"]
 
-[ext_resource type="Shader" uid="uid://dl6vbblt8ygu7" path="res://Shaders/water_2.gdshader" id="1_3obqk"]
+[ext_resource type="Shader" uid="uid://deh7jjy55i4hx" path="res://Shaders/water_3.gdshader" id="1_uqecd"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mpk1v"]
 load_path = "res://.godot/imported/green_water.png-aeb14e33954a39b5333a7a10e23a6bcb.ctex"
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_3obqk")
-shader_parameter/albedo = Color(0.462745, 0.682353, 0.956863, 0.784314)
+shader = ExtResource("1_uqecd")
+shader_parameter/albedo = Color(0.462745, 0.682353, 0.956863, 0.490196)
 shader_parameter/texture_albedo = SubResource("CompressedTexture2D_mpk1v")
 shader_parameter/point_size = 0.1
 shader_parameter/roughness = 0.375
 shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
-shader_parameter/specular = 0.25
+shader_parameter/specular = 0.0
 shader_parameter/metallic = 0.0
 shader_parameter/backlight = Color(1, 1, 1, 0)
 shader_parameter/uv1_blend_sharpness = 1.0
@@ -22,3 +22,4 @@ shader_parameter/uv1_scale = Vector3(0.01, 0.01, 0.01)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(0.1, 0.1, 0.1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/max_height = -33.0

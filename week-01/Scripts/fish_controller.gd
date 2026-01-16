@@ -14,7 +14,8 @@ var speed = 0.0
 var turn_input =  Vector2()
 
 @export var anim: AnimationPlayer
-
+@export var audio: AudioStreamPlayer3D
+@export var base_volume := -30
 
 func _ready() -> void:
 	pitch_speed = deg_to_rad(pitch_speed)
@@ -54,3 +55,6 @@ func apply_rotation(vector,delta):
 
 func animate_tail(speed, rotation1, rotation2):
 	anim.play("tail", -1, clamp(speed/2 + abs(rotation1)*5 + abs(rotation2)*5, MIN_SPEED + 0.1, MAX_SPEED/2), false)
+	#audio.volume_db = base_volume + (speed * 2.5)
+	#audio.pitch_scale = clamp(speed/2, .5, 4)
+	#print(audio.volume_db)

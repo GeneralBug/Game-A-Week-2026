@@ -11,4 +11,6 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("reset"):
 		get_tree().reload_current_scene()
 	elif event.is_action_pressed("quit"):
-		get_tree().quit()
+		#get_tree().quit()
+		#quit button breaks on web version
+		pass

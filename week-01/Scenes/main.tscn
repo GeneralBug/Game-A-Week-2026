@@ -1,13 +1,16 @@
-[gd_scene load_steps=48 format=4 uid="uid://cdfvpdeq6jrgo"]
+[gd_scene load_steps=53 format=4 uid="uid://cdfvpdeq6jrgo"]
 
 [ext_resource type="Script" uid="uid://dtatllu1lyx83" path="res://camera_follow.gd" id="1_h1bgf"]
+[ext_resource type="Script" uid="uid://bmup6mgsu357a" path="res://Scripts/util.gd" id="1_pdsj5"]
 [ext_resource type="Script" uid="uid://coewr406t61l5" path="res://Scripts/fish_controller.gd" id="2_b3802"]
 [ext_resource type="Texture2D" uid="uid://r0fpnwcqaso6" path="res://Textures/fish!_fish!.png" id="3_fevyy"]
 [ext_resource type="Texture2D" uid="uid://da1tctfe2yv8b" path="res://Textures/fish!_fish! fins.png" id="4_hibaj"]
+[ext_resource type="AudioStream" uid="uid://kycyif687v4t" path="res://Audio/paddle.ogg" id="5_hibaj"]
 [ext_resource type="Script" uid="uid://206qs5ypskke" path="res://cam_rotation.gd" id="5_pdsj5"]
 [ext_resource type="PackedScene" uid="uid://b7irj7syoy4vu" path="res://Models/treeline.glb" id="6_ee4r6"]
 [ext_resource type="Texture2D" uid="uid://b7xbgcpkmtppk" path="res://Textures/pond!_bake4.png" id="7_gt3je"]
 [ext_resource type="PackedScene" uid="uid://cr2s5x407njeq" path="res://Scenes/Rocks/rock_2.tscn" id="8_3pmx8"]
+[ext_resource type="Material" uid="uid://bboo7gixfhlis" path="res://Shaders/water_3.tres" id="8_fevyy"]
 [ext_resource type="PackedScene" uid="uid://bkv6kaminx38q" path="res://Scenes/Rocks/rock_1.tscn" id="9_u50mg"]
 [ext_resource type="PackedScene" uid="uid://lf3lmakt54kp" path="res://Scenes/Rocks/rock_3.tscn" id="10_cbgmd"]
 [ext_resource type="PackedScene" uid="uid://ciq3khthkv63j" path="res://Scenes/Rocks/rock_5.tscn" id="11_1w6v2"]
@@ -17,6 +20,9 @@
 [ext_resource type="PackedScene" uid="uid://c2814lh154ale" path="res://Scenes/Rocks/rock_4.tscn" id="15_hpc6h"]
 [ext_resource type="Texture2D" uid="uid://c5xonr52by4oc" path="res://Textures/rock_4_rock_4_baked.png" id="16_kltya"]
 [ext_resource type="Material" uid="uid://cxyyskgvxeoxr" path="res://Shaders/water_2.tres" id="17_e08e2"]
+[ext_resource type="AudioStream" uid="uid://bpg86yvqskfv3" path="res://Audio/stream4.ogg" id="21_pdsj5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_h1bgf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7mycd"]
 sky_top_color = Color(0.741176, 0.701961, 0.2, 1)
@@ -42,7 +48,7 @@ fog_light_energy = 0.15
 fog_sun_scatter = 0.1
 fog_density = 0.0
 fog_sky_affect = 0.5
-fog_height = 50.0
+fog_height = 60.0
 fog_height_density = 0.05
 fog_depth_curve = 6.72716
 adjustment_enabled = true
@@ -205,6 +211,7 @@ _data = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8db6"]
 resource_name = "pond"
+next_pass = ExtResource("8_fevyy")
 vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("7_gt3je")
 metallic = 0.1
@@ -348,13 +355,23 @@ size = Vector2(40, 40)
 size = Vector2(40, 40)
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_pdsj5")
 
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("follow_target", "look_target")]
-transform = Transform3D(-1, 0, -8.74228e-08, -2.99003e-08, 0.939693, 0.34202, 8.21505e-08, 0.34202, -0.939693, 0, 2, -5)
+[node name="RigidBody3D" type="RigidBody3D" parent="." node_paths=PackedStringArray("follow_target", "look_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.005, -5)
+gravity_scale = 0.0
 script = ExtResource("1_h1bgf")
 follow_target = NodePath("../fish/cam rotation/cam pivot")
 look_target = NodePath("../fish")
 speed = 5
+
+[node name="Camera3D" type="Camera3D" parent="RigidBody3D"]
+transform = Transform3D(1, -1.77636e-15, -7.10543e-15, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_h1bgf")
+
+[node name="AudioListener3D" type="AudioListener3D" parent="RigidBody3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5vw27")
@@ -363,16 +380,17 @@ environment = SubResource("Environment_5vw27")
 transform = Transform3D(0.999999, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0)
 light_color = Color(1, 1, 0.447059, 1)
 
-[node name="fish" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.2834, -19.5781, -10.2841)
+[node name="fish" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim", "audio")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2646, 0)
 motion_mode = 1
 script = ExtResource("2_b3802")
 MAX_SPEED = 10.0
-acceleration = 0.5
-drag = 0.75
+acceleration = 0.1
+drag = 0.1
 yaw_speed = 90.0
 roll_speed = 90.0
 anim = NodePath("../AnimationPlayer")
+audio = NodePath("tail/AudioStreamPlayer3D")
 
 [node name="body" type="MeshInstance3D" parent="fish"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0.375)
@@ -388,6 +406,12 @@ skeleton = NodePath("")
 transform = Transform3D(-3.61999e-06, 0, -1, 0, 1, 0, 1, 0, -3.61999e-06, 0, 0, -1.125)
 mesh = SubResource("ArrayMesh_46hxm")
 skeleton = NodePath("")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="fish/tail"]
+visible = false
+stream = ExtResource("5_hibaj")
+max_polyphony = 6
+parameters/looping = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="fish"]
 transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, 0.375)
@@ -460,6 +484,12 @@ shape = SubResource("ConcavePolygonShape3D_yaehf")
 [node name="rock_6" parent="pond!" instance=ExtResource("13_6vcvc")]
 transform = Transform3D(0.763407, 0, -0.312785, 0, 0.825, 0, 0.312785, 0, 0.763407, -20.8687, 13.8011, -2.69193)
 
+[node name="rock_13" parent="pond!" instance=ExtResource("14_7k868")]
+transform = Transform3D(0.472341, 0.00885684, 0.633179, 0.357212, 0.648517, -0.275545, -0.522871, 0.451051, 0.383743, 12.7043, 8.84509, -13.4072)
+
+[node name="rock_12" parent="pond!" instance=ExtResource("11_1w6v2")]
+transform = Transform3D(0.00979204, -1.07322e-17, 0.289835, -0.0680589, 0.281891, 0.00229936, -0.281731, -0.0680978, 0.00951824, 12.2253, 8.81885, -13.995)
+
 [node name="rock_10" parent="pond!" instance=ExtResource("8_3pmx8")]
 transform = Transform3D(0.237774, 0.00719625, 0.228718, -0.0531768, 0.322545, 0.0451339, -0.222567, -0.0693762, 0.233562, 1.37579, -10.7524, -3.30153)
 
@@ -484,7 +514,7 @@ visible = false
 shape = SubResource("ConcavePolygonShape3D_2cqfq")
 
 [node name="water" type="StaticBody3D" parent="pond!"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1609, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="pond!/water"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.863373, 0.162842, 0.668234)
@@ -500,3 +530,11 @@ surface_material_override/0 = ExtResource("17_e08e2")
 layers = 2
 mesh = SubResource("PlaneMesh_cegan")
 surface_material_override/0 = ExtResource("17_e08e2")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="pond!/water"]
+transform = Transform3D(0.333333, 0, 0, 0, 0.333333, 0, 0, 0, 0.333333, 0, 13.9901, 0)
+stream = ExtResource("21_pdsj5")
+volume_db = 5.0
+unit_size = 8.0
+autoplay = true
+parameters/looping = true
