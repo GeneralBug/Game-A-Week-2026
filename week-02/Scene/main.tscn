@@ -1,0 +1,249 @@
+[gd_scene load_steps=25 format=3 uid="uid://cpc7f6f3kl1nm"]
+
+[ext_resource type="Script" uid="uid://dqle2ts4dcc3v" path="res://Scripts/util.gd" id="1_r34rm"]
+[ext_resource type="Texture2D" uid="uid://c3umt3n4akhud" path="res://Sprites/sky2.png" id="3_2wwxx"]
+[ext_resource type="Texture2D" uid="uid://bw8svbpicd78d" path="res://Sprites/grass2.png" id="4_3amdw"]
+[ext_resource type="Texture2D" uid="uid://bkowqmmd1faxs" path="res://Sprites/trees2.png" id="5_1xcnr"]
+[ext_resource type="Texture2D" uid="uid://dyc615vtcr8v3" path="res://Sprites/fence1.png" id="5_3amdw"]
+[ext_resource type="Texture2D" uid="uid://cbu7m4gbbynh6" path="res://Sprites/ball thrower.png" id="6_75buv"]
+[ext_resource type="Script" uid="uid://dmvxak8agkc0o" path="res://Scripts/throwing.gd" id="6_c2iwn"]
+[ext_resource type="Texture2D" uid="uid://boppdby40464h" path="res://Sprites/tennis ball.png" id="7_c2iwn"]
+[ext_resource type="Script" uid="uid://bjnv6uncjgnft" path="res://Scripts/camera_follow.gd" id="9_7y4ci"]
+[ext_resource type="Texture2D" uid="uid://b4msgf0wko3n8" path="res://Sprites/dog1.png" id="10_3pt4j"]
+[ext_resource type="Script" uid="uid://by7bv7ofrpqjq" path="res://Scripts/dog.gd" id="10_7y4ci"]
+[ext_resource type="Texture2D" uid="uid://6rd4w3wvn543" path="res://Sprites/fence2.png" id="10_mxd2g"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3pt4j"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7y4ci"]
+radius = 9.62056
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_c2iwn"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0sxm5"]
+normal = Vector2(1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mxd2g"]
+size = Vector2(20, 275)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hspdg"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mxd2g"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7y4ci"]
+size = Vector2(158, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxd2g"]
+atlas = ExtResource("10_3pt4j")
+region = Rect2(0, 0, 171, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sxm5"]
+atlas = ExtResource("10_3pt4j")
+region = Rect2(171, 0, 171, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hspdg"]
+atlas = ExtResource("10_3pt4j")
+region = Rect2(342, 0, 171, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j63at"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxd2g")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sxm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hspdg")
+}],
+"loop": true,
+"name": &"running",
+"speed": 10.0
+}]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_r34rm")
+
+[node name="background" type="Node2D" parent="."]
+
+[node name="sky" type="Parallax2D" parent="background"]
+scroll_scale = Vector2(0.1, 0.1)
+repeat_size = Vector2(1260, 0)
+autoscroll = Vector2(1, 0)
+repeat_times = 4
+
+[node name="Sky" type="Sprite2D" parent="background/sky"]
+z_index = -1
+texture_filter = 1
+position = Vector2(0, 120)
+texture = ExtResource("3_2wwxx")
+
+[node name="fence" type="Parallax2D" parent="background"]
+scroll_scale = Vector2(0.6, 0.6)
+repeat_size = Vector2(102.4, 0)
+repeat_times = 100
+
+[node name="Fence1" type="Sprite2D" parent="background/fence"]
+z_index = -1
+texture_filter = 1
+position = Vector2(-162, 312)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5_3amdw")
+
+[node name="trees" type="Parallax2D" parent="background"]
+scroll_scale = Vector2(0.8, 0.8)
+repeat_size = Vector2(2500, 0)
+repeat_times = 7
+
+[node name="Tree" type="Sprite2D" parent="background/trees"]
+z_index = -1
+texture_filter = 1
+position = Vector2(622, 223)
+texture = ExtResource("5_1xcnr")
+
+[node name="grass" type="Parallax2D" parent="background"]
+repeat_size = Vector2(945, 0)
+repeat_times = 10
+
+[node name="Grass" type="Sprite2D" parent="background/grass"]
+z_index = -1
+texture_filter = 1
+position = Vector2(0, 420)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_3amdw")
+
+[node name="Throw Pivot" type="Node2D" parent="." node_paths=PackedStringArray("ball", "dog", "camera", "label")]
+position = Vector2(0, 284)
+script = ExtResource("6_c2iwn")
+speed = 10.0
+ball = NodePath("BALL!")
+dog = NodePath("../DOG!")
+camera = NodePath("../Camera2D")
+label = NodePath("../CanvasLayer/label")
+
+[node name="BALL!" type="RigidBody2D" parent="Throw Pivot"]
+position = Vector2(-3, -115)
+physics_material_override = SubResource("PhysicsMaterial_3pt4j")
+freeze = true
+constant_torque = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Throw Pivot/BALL!"]
+shape = SubResource("CircleShape2D_7y4ci")
+
+[node name="Sprite2D" type="Sprite2D" parent="Throw Pivot/BALL!"]
+z_index = 1
+texture_filter = 1
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("7_c2iwn")
+
+[node name="Sprite2D" type="Sprite2D" parent="Throw Pivot"]
+z_index = 1
+texture_filter = 1
+position = Vector2(-4, -52)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("6_75buv")
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow_target")]
+position = Vector2(310, 240)
+script = ExtResource("9_7y4ci")
+follow_target = NodePath("../DOG!")
+
+[node name="floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor"]
+shape = SubResource("WorldBoundaryShape2D_c2iwn")
+
+[node name="Marker fence" type="StaticBody2D" parent="."]
+position = Vector2(-468, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="Marker fence"]
+texture_filter = 1
+position = Vector2(0, -50)
+texture = ExtResource("10_mxd2g")
+
+[node name="Area2D" type="Area2D" parent="Marker fence"]
+position = Vector2(69, 0)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Marker fence/Area2D"]
+shape = SubResource("WorldBoundaryShape2D_0sxm5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Marker fence"]
+position = Vector2(69, 7.5)
+shape = SubResource("RectangleShape2D_mxd2g")
+
+[node name="Marker fence2" type="StaticBody2D" parent="."]
+position = Vector2(30000, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="Marker fence2"]
+texture_filter = 1
+position = Vector2(0, -50)
+texture = ExtResource("10_mxd2g")
+flip_h = true
+
+[node name="Area2D" type="Area2D" parent="Marker fence2"]
+position = Vector2(-70, 0)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Marker fence2/Area2D"]
+shape = SubResource("WorldBoundaryShape2D_hspdg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Marker fence2"]
+position = Vector2(-68, 7.5)
+shape = SubResource("RectangleShape2D_mxd2g")
+
+[node name="floor2" type="StaticBody2D" parent="."]
+position = Vector2(618, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor2"]
+shape = SubResource("WorldBoundaryShape2D_mxd2g")
+disabled = true
+
+[node name="DOG!" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "follow_target")]
+position = Vector2(-217, 371)
+script = ExtResource("10_7y4ci")
+sprite = NodePath("AnimatedSprite2D")
+follow_target = NodePath("../Throw Pivot/BALL!")
+
+[node name="Mouth Pivot" type="Node2D" parent="DOG!"]
+position = Vector2(53, -33)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DOG!"]
+position = Vector2(4, 19)
+shape = SubResource("RectangleShape2D_7y4ci")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="DOG!"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_j63at")
+animation = &"idle"
+frame_progress = 0.413546
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 32
+text = "Hold SPACE, release to throw!"
+fit_content = true
+horizontal_alignment = 1
+
+[connection signal="area_entered" from="Marker fence/Area2D" to="Throw Pivot" method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Marker fence/Area2D" to="Throw Pivot" method="_on_bondary_body_entered"]
+[connection signal="area_entered" from="Marker fence2/Area2D" to="Throw Pivot" method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Marker fence2/Area2D" to="Throw Pivot" method="_on_bondary_body_entered"]
+[connection signal="body_entered" from="DOG!" to="Throw Pivot" method="_on_dog_body_entered"]
