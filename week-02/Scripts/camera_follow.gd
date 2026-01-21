@@ -5,4 +5,4 @@ extends Node2D
 
 func _physics_process(delta: float) -> void:
 	if active:
-		global_position.x = follow_target.global_position.x
+		global_position.x = follow_target.global_position.x +100

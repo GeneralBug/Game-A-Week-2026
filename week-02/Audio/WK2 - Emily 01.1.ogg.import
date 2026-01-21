@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://uw8gbfthu7oe"
+path="res://.godot/imported/WK2 - Emily 01.1.ogg-0a299bdcbd8bfcf18ff64e0e2b7abf5c.oggvorbisstr"
+
+[deps]
+
+source_file="res://Audio/WK2 - Emily 01.1.ogg"
+dest_files=["res://.godot/imported/WK2 - Emily 01.1.ogg-0a299bdcbd8bfcf18ff64e0e2b7abf5c.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

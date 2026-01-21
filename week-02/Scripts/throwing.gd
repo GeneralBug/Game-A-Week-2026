@@ -46,24 +46,25 @@ func rotation_to_direction(angle: float) -> Vector2:
 	
 func freeze_ball():
 	ball.freeze = true
-	ball.global_position = $"../DOG!/Mouth Pivot".global_position
+	ball.global_position =$"../DOG!/Mouth Pivot".global_position
 
 func _on_dog_body_entered(body: Node2D) -> void:
 	if body.name == "BALL!":
 		dog.chasing = false
 		call_deferred("freeze_ball")
 		print("caught ", body.name)
-		score = snapped(abs(dog.position.x / 100), 0.01)
+		score = snapped((dog.position.x / 100), 0.01)
 		label.text = str(score, "m! Good boy :)")
 
-func _on_bondary_body_entered(body: Node2D) -> void:
-	print(body, " touched boundary!")
-	if body.name == "BALL!":
-		#print out of bounds message
-		pass
-
-func _on_area_2d_area_entered(area: Area2D) -> void:
+func _on_boundary_area_entered(area: Area2D) -> void:
 	print(area, " touched boundary!")
 	if area.name == "DOG!":
 		dog.chasing = false
 		label.text = str("Over the fence :(")
+
+
+func _on_boundary_body_entered(body: Node2D) -> void:
+	print(body, " touched boundary!")
+	if body.name == "BALL!":
+		#print out of bounds message
+		pass
