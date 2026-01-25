@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bw8svbpicd78d" path="res://Sprites/grass2.png" id="4_3amdw"]
 [ext_resource type="Texture2D" uid="uid://bkowqmmd1faxs" path="res://Sprites/trees2.png" id="5_1xcnr"]
 [ext_resource type="Texture2D" uid="uid://dyc615vtcr8v3" path="res://Sprites/fence1.png" id="5_3amdw"]
-[ext_resource type="AudioStream" uid="uid://uw8gbfthu7oe" path="res://Audio/WK2 - Emily 01.1.ogg" id="7_ow1sv"]
+[ext_resource type="AudioStream" uid="uid://c23lae0qqkjd0" path="res://Audio/WK2 - Emily 01.3.ogg" id="7_ow1sv"]
 [ext_resource type="Texture2D" uid="uid://kqeyuyd1hwop" path="res://Sprites/woman3.png" id="13_0sxm5"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_c2iwn"]

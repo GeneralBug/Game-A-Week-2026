@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="week-02"
+config/name="The Dog Game"
+config/description="Game-A-Week 2026 week 2"
 run/main_scene="uid://cpc7f6f3kl1nm"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"

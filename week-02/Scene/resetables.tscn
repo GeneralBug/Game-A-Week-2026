@@ -1,10 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://rsbix74lcpwi"]
+[gd_scene load_steps=21 format=3 uid="uid://rsbix74lcpwi"]
 
 [ext_resource type="Script" uid="uid://dmvxak8agkc0o" path="res://Scripts/throwing.gd" id="1_bupmd"]
 [ext_resource type="Texture2D" uid="uid://boppdby40464h" path="res://Sprites/tennis ball.png" id="2_0wgar"]
 [ext_resource type="Texture2D" uid="uid://cbu7m4gbbynh6" path="res://Sprites/ball thrower.png" id="3_7j1ac"]
+[ext_resource type="AudioStream" uid="uid://06k13y8trcxq" path="res://Audio/WK2 - Emily VO - Fetch 01.ogg" id="3_po66k"]
 [ext_resource type="Script" uid="uid://by7bv7ofrpqjq" path="res://Scripts/dog.gd" id="4_rx4jw"]
+[ext_resource type="AudioStream" uid="uid://cnklqq28dnv5l" path="res://Audio/WK2 - Emily VO - Good Boy 01.ogg" id="4_wvdnc"]
 [ext_resource type="Texture2D" uid="uid://b4msgf0wko3n8" path="res://Sprites/dog1.png" id="5_po66k"]
+[ext_resource type="AudioStream" uid="uid://boqrdv0d76q46" path="res://Audio/WK2 - Emily VO - Over The Fence 01.ogg" id="5_uqc0n"]
 [ext_resource type="Script" uid="uid://bjnv6uncjgnft" path="res://Scripts/camera_follow.gd" id="6_wvdnc"]
 [ext_resource type="Texture2D" uid="uid://6rd4w3wvn543" path="res://Sprites/fence2.png" id="7_0wgar"]
 
@@ -63,8 +66,11 @@ animations = [{
 
 [node name="Reset Parent" type="Node2D"]
 
+[node name="voice" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
+
 [node name="Marker fence" type="StaticBody2D" parent="."]
-position = Vector2(-468, 360)
+position = Vector2(-600, 360)
 
 [node name="Sprite2D" type="Sprite2D" parent="Marker fence"]
 texture_filter = 1
@@ -82,25 +88,26 @@ position = Vector2(69, 7.5)
 shape = SubResource("RectangleShape2D_mxd2g")
 
 [node name="Marker fence2" type="StaticBody2D" parent="."]
-position = Vector2(30000, 360)
+position = Vector2(40000, 360)
 
 [node name="Sprite2D" type="Sprite2D" parent="Marker fence2"]
 texture_filter = 1
-position = Vector2(0, -50)
+position = Vector2(32, -50)
 texture = ExtResource("7_0wgar")
 flip_h = true
 
 [node name="Area2D" type="Area2D" parent="Marker fence2"]
-position = Vector2(-70, 0)
+position = Vector2(-69, 0)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Marker fence2/Area2D"]
+position = Vector2(-3, 0)
 shape = SubResource("WorldBoundaryShape2D_hspdg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Marker fence2"]
-position = Vector2(-68, 7.5)
+position = Vector2(-72, 8)
 shape = SubResource("RectangleShape2D_mxd2g")
 
-[node name="Throw Pivot" type="Node2D" parent="." node_paths=PackedStringArray("ball", "dog", "camera", "label")]
+[node name="Throw Pivot" type="Node2D" parent="." node_paths=PackedStringArray("ball", "dog", "camera", "label", "label_reset", "voice")]
 position = Vector2(0, 212)
 rotation = -1.33518
 script = ExtResource("1_bupmd")
@@ -109,6 +116,9 @@ ball = NodePath("BALL!")
 dog = NodePath("../DOG!")
 camera = NodePath("../Camera2D")
 label = NodePath("../CanvasLayer/label")
+label_reset = NodePath("../CanvasLayer/label_reset")
+voice = NodePath("../voice")
+voicelines = Array[AudioStream]([ExtResource("3_po66k"), ExtResource("4_wvdnc"), ExtResource("5_uqc0n")])
 
 [node name="BALL!" type="RigidBody2D" parent="Throw Pivot"]
 position = Vector2(-3, -115)
@@ -137,6 +147,7 @@ position = Vector2(-217, 371)
 script = ExtResource("4_rx4jw")
 sprite = NodePath("AnimatedSprite2D")
 follow_target = NodePath("../Throw Pivot/BALL!")
+boundary = Vector2(-600, 40000)
 
 [node name="Mouth Pivot" type="Node2D" parent="DOG!"]
 position = Vector2(53, -33)
@@ -152,7 +163,7 @@ animation = &"idle"
 frame_progress = 0.413546
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow_target")]
-position = Vector2(310, 240)
+position = Vector2(-117, 239)
 script = ExtResource("6_wvdnc")
 follow_target = NodePath("../DOG!")
 
@@ -171,8 +182,23 @@ text = "Hold SPACE, release to throw!"
 fit_content = true
 horizontal_alignment = 1
 
+[node name="label_reset" type="RichTextLabel" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 70.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 16
+text = "Press R to reset"
+fit_content = true
+horizontal_alignment = 1
+
 [connection signal="area_entered" from="Marker fence/Area2D" to="Throw Pivot" method="_on_boundary_area_entered"]
 [connection signal="body_entered" from="Marker fence/Area2D" to="Throw Pivot" method="_on_boundary_body_entered"]
+[connection signal="body_exited" from="Marker fence/Area2D" to="Throw Pivot" method="_on_boundary_body_exited"]
 [connection signal="area_entered" from="Marker fence2/Area2D" to="Throw Pivot" method="_on_boundary_area_entered"]
 [connection signal="body_entered" from="Marker fence2/Area2D" to="Throw Pivot" method="_on_boundary_body_entered"]
 [connection signal="body_entered" from="DOG!" to="Throw Pivot" method="_on_dog_body_entered"]
